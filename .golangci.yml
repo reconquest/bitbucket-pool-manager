@@ -1,0 +1,174 @@
+run:
+
+  concurrency: 4
+  timeout: 1m
+  issues-exit-code: 1
+  tests: false
+  build-tags:
+  skip-dirs:
+    - ./testdata
+    - ./internal/config/
+  skip-dirs-use-default: true
+  skip-files:
+  - ".toml"
+  - ".yaml"
+  - "config.go"
+  - "cleaner-test-real-data.go"
+  allow-parallel-runners: false
+
+output:
+  format: colored-line-number
+  print-issued-lines: true
+  print-linter-name: true
+  uniq-by-line: true
+  path-prefix: ""
+
+linters-settings:
+  dogsled:
+    max-blank-identifiers: 2
+  dupl:
+    threshold: 100
+  errcheck:
+    check-type-assertions: false
+    check-blank: false
+  exhaustive:
+    default-signifies-exhaustive: false
+  funlen:
+    lines: 150
+    statements: 45
+  gocognit:
+    min-complexity: 10
+  nestif:
+    min-complexity: 4
+  goconst:
+    min-len: 3
+    min-occurrences: 3
+  gocritic:
+    enabled-tags:
+      - performance
+    disabled-tags:
+      - experimental
+    settings:
+      captLocal:
+        paramsOnly: true
+      rangeValCopy:
+        sizeThreshold: 32
+  gocyclo:
+    min-complexity: 15
+  godot:
+    check-all: false
+  godox:
+    keywords:
+      - NOTE
+      - OPTIMIZE
+      - HACK
+  gofmt:
+    simplify: true
+  golint:
+    min-confidence: 0.8
+  gomnd:
+    settings:
+      mnd:
+        checks: argument,case,condition,operation,return,assign
+  govet:
+    check-shadowing: true
+    enable-all: true
+    disable:
+    disable-all: false
+  depguard:
+    list-type: blacklist
+    include-go-root: false
+
+  lll:
+    line-length: 90
+    tab-width: 1
+  maligned:
+    suggest-new: true
+  misspell:
+    locale: US
+  nakedret:
+    max-func-lines: 30
+  nolintlint:
+    allow-unused: false
+    allow-leading-space: true
+    allow-no-explanation: []
+    require-explanation: true
+    require-specific: true
+  unparam:
+    check-exported: false
+  unused:
+    check-exported: false
+  whitespace:
+    multi-if: false
+    multi-func: false
+  wsl:
+    strict-append: true
+    allow-assign-and-call: true
+    allow-multiline-assign: true
+    allow-cuddle-declarations: false
+    allow-trailing-comment: false
+    force-case-trailing-whitespace: 0
+    force-err-cuddling: false
+    allow-separated-leading-comment: false
+  gofumpt:
+    extra-rules: false
+
+linters:
+  enable:
+    - bodyclose
+    - deadcode
+    - depguard
+    - dogsled
+    - errcheck
+    - funlen
+    - gochecknoinits
+    - gocyclo
+    - gofmt
+    - goimports
+    - goprintffuncname
+    - gosec
+    - gosimple
+    - govet
+    - ineffassign
+    - interfacer
+    - lll
+    - misspell
+    - nakedret
+    - rowserrcheck
+    - scopelint
+    - staticcheck
+    - structcheck
+    - typecheck
+    - unconvert
+    - unparam
+    - unused
+    - varcheck
+    - whitespace
+  disable:
+    - goconst
+    - gomnd
+    - maligned
+    - prealloc
+    - gocritic
+    - wsl
+    - dupl
+    - stylecheck
+    - golint
+  disable-all: false
+  fast: false
+issues:
+  exclude:
+    - G107 #Url provided to HTTP request as taint input
+    - S1008 #Simplify returning boolean expression
+  exclude-rules:
+    - path: .
+      linters:
+        - lll
+      source: '`(json|bson):".*"`$'
+    - path: .
+      source: 'response.Body.Close\(\)|reader.Close\(\)|listen.Close()|file.Close()'
+  exclude-use-default: false
+  exclude-case-sensitive: false
+  max-issues-per-linter: 0
+  max-same-issues: 0
+  new: false
